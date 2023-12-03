@@ -15,8 +15,12 @@ class TestGame(unittest.TestCase):
 
     def test_checkCubes_fromFile(self):
         with open('./tests/test_input_1.txt') as file:
-            self.assertEqual(checkGameFile(file, [12,13,14]), 8)
+            self.assertEqual(checkGameFileForSumOfIdOnValidGames(file, [12,13,14]), 8)
 
     def test_getMinimunCubes(self):
         self.assertEqual(getMinimunCubes(self.input1), [4,2,6])
         self.assertEqual(getMinimunCubes(self.input2), [1,3,4])
+
+    def test_getPowers_fromFile(self):
+        with open('./tests/test_input_1.txt') as file:
+            self.assertEqual(checkGameFileForPower(file), 2286)

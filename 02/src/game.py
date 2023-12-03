@@ -20,7 +20,7 @@ def checkCubes(numOfReds: int, numOfGreens: int, numOfBlues: int, input: str) ->
                     return 0
     return int(game[0].split(" ")[1])
 
-def checkGameFile(file, numOfRGBCubes: []) -> int:
+def checkGameFileForSumOfIdOnValidGames(file, numOfRGBCubes: []) -> int:
     sum: int = 0
     for line in file:
         sum += checkCubes(numOfRGBCubes[0], numOfRGBCubes[1], numOfRGBCubes[2], line.strip())
@@ -37,7 +37,6 @@ def getMinimunCubes(input: str) -> []:
         inputs.append(round.split(','))
     for round in inputs:
         for input in round:
-            print(input)
             if input[-1] == 'd': # as in reD
                 num = input.split(' ')[1]
                 if int(num) > minimumRed:
@@ -50,5 +49,11 @@ def getMinimunCubes(input: str) -> []:
                 num = input.split(' ')[1]
                 if int(num) > minimunBlue: 
                     minimunBlue = int(num)
-    
     return [minimumRed, minimunGreen, minimunBlue]
+
+def checkGameFileForPower(file) -> int:
+    sum = 0
+    for line in file:
+        mins = getMinimunCubes(line.strip())
+        sum += mins[0]*mins[1]*mins[2]
+    return sum
