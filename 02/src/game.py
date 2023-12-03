@@ -47,9 +47,7 @@ def getMinimunCubes(input: str) -> []:
                 if int(num) > minimunGreen: 
                     minimunGreen = int(num)
             if input[-1] == 'e': # as in bluE
-                print(f'blue found - input is {input}')
                 num = input.split(' ')[1]
-                print(f'if num {num} > {minimunBlue} set minBlue to {num}')
                 if int(num) > minimunBlue: 
                     minimunBlue = int(num)
     
