@@ -46,6 +46,16 @@ class Test_partReader(unittest.TestCase):
         self.input1[1] = "......?..."
         self.assertEqual(checkIfPart(potentialPart, self.input1), True)
         
+    def test_checkIfPart_top_WhenOnTopEdge(self):
+        self.input1[0] = "...1111..."
+        self.input1[1] = ".........."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), False)
+        self.input1[1] = "....!....."
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+        self.input1[1] = ".........."
+        self.input1[2] = "....!....." # again array[-1]
+        self.assertEqual(checkIfPart(potentialPart, self.input1), False)
 
 
     def test_checkIfPart_bottom(self): 
