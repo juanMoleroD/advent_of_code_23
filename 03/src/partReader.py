@@ -27,6 +27,13 @@ def checkIfPart(potentialPart: {}, lines: []):
     onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
     onBottomEdge: bool = potentialPart["partY"] == len(lines) - 1
     onTopEdge: bool = potentialPart["partY"] == 0
+
+    validPartIndexMostLeft: int = potentialPart["partX"]
+    if not onLeftEdge:
+        validPartIndexMostLeft -= 1
+    validPartIndexMostRight: int = potentialPart["partX"] + potentialPart["partLen"]
+    if not onRightEdge:
+        validPartIndexMostRight += 1
     # check sides
     sides = []
     if not onLeftEdge: 
@@ -36,7 +43,7 @@ def checkIfPart(potentialPart: {}, lines: []):
         rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
         sides.append(rightChar)
     # top & bottom
-    for value in range(potentialPart["partX"],potentialPart["partX"] + potentialPart["partLen"]):
+    for value in range(validPartIndexMostLeft, validPartIndexMostRight):
         if not onTopEdge: sides.append(lines[potentialPart["partY"] - 1][value])
         if not onBottomEdge: sides.append(lines[potentialPart["partY"] + 1][value])
 

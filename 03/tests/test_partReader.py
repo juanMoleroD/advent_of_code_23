@@ -37,6 +37,11 @@ class Test_partReader(unittest.TestCase):
         self.input1[0] = "...%......"
         potentialPart = findPotentialPart(self.input1)
         self.assertEqual(checkIfPart(potentialPart, self.input1), True )
+     
+    def test_checkIfPart_bottom(self): 
+        self.input1[2] = ".....$...."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True )
 
     def test_checkIfPart_top_WhenOnBottomEdge(self):
         self.input1[1] = ".........."
@@ -54,14 +59,23 @@ class Test_partReader(unittest.TestCase):
         self.input1[1] = "....!....."
         self.assertEqual(checkIfPart(potentialPart, self.input1), True)
         self.input1[1] = ".........."
-        self.input1[2] = "....!....." # again array[-1]
+        self.input1[2] = "....!....." # again array[-1] needs to be checked
         self.assertEqual(checkIfPart(potentialPart, self.input1), False)
 
-
-    def test_checkIfPart_bottom(self): 
-        self.input1[2] = ".....$...."
+    def test_checkDiagonals(self):
+        self.input1[0] = "..^......."
         potentialPart = findPotentialPart(self.input1)
-        self.assertEqual(checkIfPart(potentialPart, self.input1), True )
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+        self.input1[0] = ".......=.."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+        self.input1[0] = ".........."
+        self.input1[2] = "..(......."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+        self.input1[0] = ".......£.."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
 
 
     def test_parseInputToMatrix(self):
