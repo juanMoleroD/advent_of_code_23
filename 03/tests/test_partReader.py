@@ -34,9 +34,9 @@ class Test_partReader(unittest.TestCase):
     def test_checkIfPart_top_and_bottom(self):
         PotentialPart = findPotentialPart(self.input1)
         self.assertEqual(checkIfPart(PotentialPart, self.input1), False )
-        PotentialPart = findPotentialPart(self.input1)
-        # self.assertEqual(checkIfPart(PotentialPart, self.input1), True )
         self.input1[0] = "...%......"
+        PotentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(PotentialPart, self.input1), True )
 
     def test_parseInputToMatrix(self):
         pass
