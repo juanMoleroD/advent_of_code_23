@@ -5,21 +5,22 @@ def findPotentialPart(lines: []) -> {}:
     for linesIndex, line in enumerate(lines):
         partFound = False
         for charIndex, char in enumerate(line):
-            if char != '.' and partFound == True:
+            if char.isnumeric() and partFound == True:
                 partLen += 1
-            if char != '.' and partFound == False:
-                partFound = True
-                partX = charIndex
-                partY = linesIndex
-                partLen = 1
+            if char.isnumeric() and char != '.':
+                if partFound == False:
+                    partFound = True
+                    partX = charIndex
+                    partY = linesIndex
+                    partLen = 1
             if char == '.' and partFound == True: 
                 break 
     value: int = int(lines[partY][partX:(partX + partLen)])
     return { "partX": partX, "partY": partY, "partLen": partLen , "value": value}
 
 def checkIfPart(potentialPart: {}, lines: []):
-    print(potentialPart)
-    print(lines)
+    # print(potentialPart)
+    # print(lines)
 
     # on edge?
     onLeftEdge: bool = potentialPart["partX"] == 0
@@ -32,7 +33,12 @@ def checkIfPart(potentialPart: {}, lines: []):
     if not onRightEdge:
         rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
         sides.append(rightChar)
-    # if not onRigtEdge: 
+    # top
+    for value in range(potentialPart["partX"],potentialPart["partX"] + potentialPart["partLen"]):
+        sides.append(lines[potentialPart["partY"] - 1][value])
+        sides.append(lines[potentialPart["partY"] + 1][value])
+
+   
 
     for side in sides:
         if checkIfPartSymbol(side):
