@@ -70,7 +70,8 @@ def checkIfPart(potentialPart: {}, lines: []) -> bool:
 def checkIfPartSymbol(char: str) -> bool:
     return char != '.' and char.isalpha() == False
 
-def checkPartsAndGetSumOfCorrectParts(potentialParts: [], input):
+def checkPartsAndGetSumOfCorrectParts(input):
+    potentialParts = findPotentialParts(input)
     sum: int = 0
     for part in potentialParts:
         if checkIfPart(part, input):

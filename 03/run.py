@@ -6,5 +6,4 @@ with open('./input.txt', 'r') as file:
         input.append(line.strip())
 
 # part 1
-potentialParts: [] = findPotentialParts(input)
-print(checkPartsAndGetSumOfCorrectParts(potentialParts, input))
+print(checkPartsAndGetSumOfCorrectParts(input))
