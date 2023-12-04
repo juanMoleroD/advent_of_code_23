@@ -77,3 +77,42 @@ def checkPartsAndGetSumOfCorrectParts(input):
         if checkIfPart(part, input):
             sum += part["value"]
     return sum
+
+def getPotentialGears(input: []) -> []:
+    potentialParts = findPotentialParts(input)
+    result: [] = []
+    for part in potentialParts:
+        if checkIfPotentialGear(part, input): result.append(part)
+    return result
+
+
+def checkIfPotentialGear(potentialPart: {}, lines: []):
+    # on edge? 
+    onLeftEdge: bool = potentialPart["partX"] == 0
+    onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
+    onBottomEdge: bool = potentialPart["partY"] == len(lines) - 1
+    onTopEdge: bool = potentialPart["partY"] == 0
+
+    validPartIndexMostLeft: int = potentialPart["partX"]
+    if not onLeftEdge:
+        validPartIndexMostLeft -= 1
+    validPartIndexMostRight: int = potentialPart["partX"] + potentialPart["partLen"]
+    if not onRightEdge:
+        validPartIndexMostRight += 1
+    sides = []
+    if not onLeftEdge: 
+        leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
+        sides.append(leftChar)
+    if not onRightEdge:
+        rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
+        sides.append(rightChar)
+    # top & bottom
+    for value in range(validPartIndexMostLeft, validPartIndexMostRight):
+        if not onTopEdge: sides.append(lines[potentialPart["partY"] - 1][value])
+        if not onBottomEdge: sides.append(lines[potentialPart["partY"] + 1][value])
+    # same as checkIfPart
+    
+    for side in sides:
+        if side == "*":
+            return True
+    return False

@@ -98,8 +98,13 @@ class Test_partReader(unittest.TestCase):
 
     def test_checksAndAddsUpAllPieces(self):
         potentialParts: [] = findPotentialParts(self.input1)
-        self.assertEqual(checkPartsAndGetSumOfCorrectParts(potentialParts, self.input1), 0)
+        self.assertEqual(checkPartsAndGetSumOfCorrectParts(self.input1), 0)
         self.input1[0] = "...%......"
-        self.assertEqual(checkPartsAndGetSumOfCorrectParts(potentialParts, self.input1), 1111)
+        self.assertEqual(checkPartsAndGetSumOfCorrectParts(self.input1), 1111)
         potentialParts = findPotentialParts(self.input3)
-        self.assertEqual(checkPartsAndGetSumOfCorrectParts(potentialParts, self.input3), 4361)
+        self.assertEqual(checkPartsAndGetSumOfCorrectParts(self.input3), 4361)
+
+    def test_findsPotentialGears(self):
+        self.assertEqual(len(getPotentialGears(self.input3)), 5)
+        self.input1[1] = "..11*222.."
+        self.assertEqual(len(getPotentialGears(self.input1)), 2)
