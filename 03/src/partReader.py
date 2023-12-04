@@ -1,4 +1,5 @@
-def findPotentialPart(lines: []) -> {}:
+def findPotentialParts(lines: []) -> {}:
+    result: [] = []
     partX: int = -1
     partY: int = -1
     partLen: int = -1
@@ -14,14 +15,29 @@ def findPotentialPart(lines: []) -> {}:
                     partY = linesIndex
                     partLen = 1
             if char == '.' and partFound == True: 
-                break 
-    value: int = int(lines[partY][partX:(partX + partLen)])
-    return { "partX": partX, "partY": partY, "partLen": partLen , "value": value}
+                value: int = int(lines[partY][partX:(partX + partLen)])
+                result.append({ "partX": partX, 
+                                "partY": partY, 
+                                "partLen": partLen , 
+                                "value": value})
+                partX: int = -1
+                partY: int = -1
+                partLen: int = -1
+                partFound = False
+        if partFound: # for if last digit is part
+            value: int = int(lines[partY][partX:(partX + partLen)])
+            result.append({ "partX": partX, 
+                            "partY": partY, 
+                            "partLen": partLen , 
+                            "value": value})
+            partX: int = -1
+            partY: int = -1
+            partLen: int = -1
+            partFound = False
 
-def checkIfPart(potentialPart: {}, lines: []):
-    # print(potentialPart)
-    # print(lines)
+    return result
 
+def checkIfPart(potentialPart: {}, lines: []) -> bool:
     # on edge?
     onLeftEdge: bool = potentialPart["partX"] == 0
     onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
@@ -34,7 +50,6 @@ def checkIfPart(potentialPart: {}, lines: []):
     validPartIndexMostRight: int = potentialPart["partX"] + potentialPart["partLen"]
     if not onRightEdge:
         validPartIndexMostRight += 1
-    # check sides
     sides = []
     if not onLeftEdge: 
         leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
@@ -47,8 +62,6 @@ def checkIfPart(potentialPart: {}, lines: []):
         if not onTopEdge: sides.append(lines[potentialPart["partY"] - 1][value])
         if not onBottomEdge: sides.append(lines[potentialPart["partY"] + 1][value])
 
-   
-
     for side in sides:
         if checkIfPartSymbol(side):
             return True
@@ -56,3 +69,10 @@ def checkIfPart(potentialPart: {}, lines: []):
 
 def checkIfPartSymbol(char: str) -> bool:
     return char != '.' and char.isalpha() == False
+
+def checkPartsAndGetSumOfCorrectParts(potentialParts: [], input):
+    sum: int = 0
+    for part in potentialParts:
+        if checkIfPart(part, input):
+            sum += part["value"]
+    return sum
