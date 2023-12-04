@@ -86,6 +86,11 @@ class Test_partReader(unittest.TestCase):
         self.assertEqual(checkIfPart(potentialPart, self.input1), True)
         self.input1[0] = ".......£.."
         self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+    
+    def test_checkTwoPartsSeparatedBySymbol(self):
+        self.input1[1] = "..11*222.."
+        potentialParts = findPotentialParts(self.input1)
+        self.assertEqual(len(potentialParts), 2)
 
     def test_findAllPotentialPartsInLine(self):
         potentialParts: [] = findPotentialParts(self.input2)
@@ -98,7 +103,3 @@ class Test_partReader(unittest.TestCase):
         self.assertEqual(checkPartsAndGetSumOfCorrectParts(potentialParts, self.input1), 1111)
         potentialParts = findPotentialParts(self.input3)
         self.assertEqual(checkPartsAndGetSumOfCorrectParts(potentialParts, self.input3), 4361)
-
-
-    def xtest_parseInputToMatrix(self):
-        pass
