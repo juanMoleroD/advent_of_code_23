@@ -32,11 +32,21 @@ class Test_partReader(unittest.TestCase):
         self.assertEqual(checkIfPart(potentialPart, self.input1), False)
 
     def test_checkIfPart_top(self):
-        PotentialPart = findPotentialPart(self.input1)
-        self.assertEqual(checkIfPart(PotentialPart, self.input1), False )
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), False )
         self.input1[0] = "...%......"
-        PotentialPart = findPotentialPart(self.input1)
-        self.assertEqual(checkIfPart(PotentialPart, self.input1), True )
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True )
+
+    def test_checkIfPart_top_WhenOnBottomEdge(self):
+        self.input1[1] = ".........."
+        self.input1[2] = "...1111..."
+        potentialPart = findPotentialPart(self.input1)
+        self.assertEqual(checkIfPart(potentialPart, self.input1), False)
+        self.input1[1] = "......?..."
+        self.assertEqual(checkIfPart(potentialPart, self.input1), True)
+        
+
 
     def test_checkIfPart_bottom(self): 
         self.input1[2] = ".....$...."
