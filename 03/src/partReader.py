@@ -14,7 +14,7 @@ def findPotentialParts(lines: []) -> {}:
                     partX = charIndex
                     partY = linesIndex
                     partLen = 1
-            if char == '.' and partFound == True: 
+            if (char == '.' or not char.isnumeric()) and partFound == True: 
                 value: int = int(lines[partY][partX:(partX + partLen)])
                 result.append({ "partX": partX, 
                                 "partY": partY, 
