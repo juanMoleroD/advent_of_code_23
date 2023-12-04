@@ -18,12 +18,21 @@ def findPotentialPart(lines: []) -> {}:
     return { "partX": partX, "partY": partY, "partLen": partLen , "value": value}
 
 def checkIfPart(potentialPart: {}, lines: []):
+    print(potentialPart)
+    print(lines)
+
+    # on edge?
+    onLeftEdge: bool = potentialPart["partX"] == 0
+    onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
     # check sides
     sides = []
-    leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
-    rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
-    sides.append(leftChar)
-    sides.append(rightChar)
+    if not onLeftEdge: 
+        leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
+        sides.append(leftChar)
+    if not onRightEdge:
+        rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
+        sides.append(rightChar)
+    # if not onRigtEdge: 
 
     for side in sides:
         if checkIfPartSymbol(side):
