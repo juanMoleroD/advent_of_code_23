@@ -1,5 +1,5 @@
-def findPotentialParts(lines: []) -> {}:
-    result: [] = []
+def findPotentialParts(lines):
+    result = []
     partX: int = -1
     partY: int = -1
     partLen: int = -1
@@ -37,7 +37,7 @@ def findPotentialParts(lines: []) -> {}:
 
     return result
 
-def checkIfPart(potentialPart: {}, lines: []) -> bool:
+def checkIfPart(potentialPart, lines) -> bool:
     # on edge?
     onLeftEdge: bool = potentialPart["partX"] == 0
     onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
@@ -78,15 +78,15 @@ def checkPartsAndGetSumOfCorrectParts(input):
             sum += part["value"]
     return sum
 
-def getPotentialGears(input: []) -> []:
+def getPotentialGears(input):
     potentialParts = findPotentialParts(input)
-    result: [] = []
+    result = []
     for part in potentialParts:
         checkAndYX = checkIfPotentialGear(part, input)
         if checkAndYX[0]: result.append(checkAndYX)
     return result
 
-def checkIfPotentialGear(potentialPart: {}, lines: []):
+def checkIfPotentialGear(potentialPart, lines):
     # on edge? 
     onLeftEdge: bool = potentialPart["partX"] == 0
     onRightEdge: bool = potentialPart["partX"] + potentialPart["partLen"] == len(lines[potentialPart["partY"]])
@@ -102,41 +102,47 @@ def checkIfPotentialGear(potentialPart: {}, lines: []):
     sides = []
     if not onLeftEdge: 
         leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
-        yx: [] = [potentialPart["partY"], potentialPart["partX"] - 1]
+        yx = [potentialPart["partY"], potentialPart["partX"] - 1]
         sides.append([leftChar, yx])
     if not onRightEdge:
         rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
-        yx: [] = [potentialPart["partY"], potentialPart["partX"] + potentialPart["partLen"]]
+        yx = [potentialPart["partY"], potentialPart["partX"] + potentialPart["partLen"]]
         sides.append([rightChar, yx])
     # top & bottom
     for value in range(validPartIndexMostLeft, validPartIndexMostRight):
         if not onTopEdge: 
             charValue = lines[potentialPart["partY"] - 1][value]
-            yx: [] = [potentialPart["partY"] - 1, value] 
+            yx= [potentialPart["partY"] - 1, value] 
             sides.append([charValue, yx])
         if not onBottomEdge: 
             charValue = lines[potentialPart["partY"] + 1][value]
-            yx: [] = [potentialPart["partY"] + 1, value]
+            yx = [potentialPart["partY"] + 1, value]
             sides.append([charValue, yx])
     # same as checkIfPart
     
     for side in sides:
         if side[0] == "*":
-            return [True, side[1], potentialPart["value"]]
+            return [True, side[1], potentialPart]
     return [False]
 
-def getGears(lines: []) -> int:
-    potentialGears: [] = getPotentialGears(lines)
-    print(potentialGears)
+def getGearsRatioSum(lines) -> int:
+    potentialGears = getPotentialGears(lines)
+    print(f'potential gears: {len(potentialGears)}')
+    gearCount = 0
     result: int = 0
     for candidate in potentialGears:
         instances: int = 0
-        pairGear: [] = []
+        pairGear = []
         for element in potentialGears:
-            if candidate[1] == element[1]:
+            if candidate[1] == element[1] and candidate[2] != element[2]:
                 instances += 1
                 pairGear = element
-        if instances == 2: result += 1
-        potentialGears.remove(candidate)
-        potentialGears.remove(pairGear)
+        if instances > 1: print(f'candidate {candidate} generated {instances} matches')
+
+        if instances == 1: 
+            gearCount += 1
+            # print(f'found gears {candidate} with {pairGear} as instances are {instances}')
+            result += candidate[2]["value"] * pairGear[2]["value"]
+            potentialGears.remove(candidate)
+            potentialGears.remove(pairGear)
     return result

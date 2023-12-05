@@ -20,6 +20,9 @@ class Test_partReader(unittest.TestCase):
                            '......755.',
                            '...$.*....',
                            '.664.598..']
+        self.input4: [] = [ '...1.2....',
+                            '....*.....',
+                            '...4.3....']
 
     def test_findPotentialPart(self):
         expected = [{ "value": 1111, "partX": 3, "partY": 1, "partLen": 4 }]
@@ -111,5 +114,11 @@ class Test_partReader(unittest.TestCase):
 
     def test_findGearsFromPotential(self):
         self.input1[1] = "..11*222.."
-        self.assertEqual(getGears(self.input1), 1)
-        self.assertEqual(getGears(self.input3), 2)
+        self.assertEqual(getGearsRatioSum(self.input1), 2442)
+        self.assertEqual(getGearsRatioSum(self.input3), 467835)
+        self.input1[2] = '....3.....'
+        self.assertEqual(getGearsRatioSum(self.input1), 0)
+        self.input1[2] = '....4.....'
+        self.assertEqual(getGearsRatioSum(self.input1), 0)
+        self.assertEqual(getGearsRatioSum(self.input4), 0)
+
