@@ -83,7 +83,7 @@ def getPotentialGears(input: []) -> []:
     result: [] = []
     for part in potentialParts:
         checkAndYX = checkIfPotentialGear(part, input)
-        if checkAndYX[0]: result.append(checkAndYX[1])
+        if checkAndYX[0]: result.append(checkAndYX)
     return result
 
 def checkIfPotentialGear(potentialPart: {}, lines: []):
@@ -122,7 +122,7 @@ def checkIfPotentialGear(potentialPart: {}, lines: []):
     
     for side in sides:
         if side[0] == "*":
-            return [True, side[1]]
+            return [True, side[1], potentialPart["value"]]
     return [False]
 
 def getGears(lines: []) -> int:
@@ -131,10 +131,12 @@ def getGears(lines: []) -> int:
     result: int = 0
     for candidate in potentialGears:
         instances: int = 0
+        pairGear: [] = []
         for element in potentialGears:
-            if candidate == element:
+            if candidate[1] == element[1]:
                 instances += 1
+                pairGear = element
         if instances == 2: result += 1
         potentialGears.remove(candidate)
-        potentialGears.remove(candidate)
+        potentialGears.remove(pairGear)
     return result
