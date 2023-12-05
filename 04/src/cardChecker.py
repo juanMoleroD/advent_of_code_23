@@ -10,3 +10,9 @@ def getCardPoints(input) -> int:
             else: matchedNums *= 2
             
     return matchedNums
+
+def getAllCardPoints(games) -> int:
+    sum: int = 0
+    for game in games:
+        sum += getCardPoints(game)
+    return sum
