@@ -82,9 +82,9 @@ def getPotentialGears(input: []) -> []:
     potentialParts = findPotentialParts(input)
     result: [] = []
     for part in potentialParts:
-        if checkIfPotentialGear(part, input): result.append(part)
+        checkAndYX = checkIfPotentialGear(part, input)
+        if checkAndYX[0]: result.append(checkAndYX[1])
     return result
-
 
 def checkIfPotentialGear(potentialPart: {}, lines: []):
     # on edge? 
@@ -102,17 +102,39 @@ def checkIfPotentialGear(potentialPart: {}, lines: []):
     sides = []
     if not onLeftEdge: 
         leftChar: str = lines[potentialPart["partY"]][potentialPart["partX"] - 1]
-        sides.append(leftChar)
+        yx: [] = [potentialPart["partY"], potentialPart["partX"] - 1]
+        sides.append([leftChar, yx])
     if not onRightEdge:
         rightChar: str = lines[potentialPart["partY"]][potentialPart["partX"] + potentialPart["partLen"]]
-        sides.append(rightChar)
+        yx: [] = [potentialPart["partY"], potentialPart["partX"] + potentialPart["partLen"]]
+        sides.append([rightChar, yx])
     # top & bottom
     for value in range(validPartIndexMostLeft, validPartIndexMostRight):
-        if not onTopEdge: sides.append(lines[potentialPart["partY"] - 1][value])
-        if not onBottomEdge: sides.append(lines[potentialPart["partY"] + 1][value])
+        if not onTopEdge: 
+            charValue = lines[potentialPart["partY"] - 1][value]
+            yx: [] = [potentialPart["partY"] - 1, value] 
+            sides.append([charValue, yx])
+        if not onBottomEdge: 
+            charValue = lines[potentialPart["partY"] + 1][value]
+            yx: [] = [potentialPart["partY"] + 1, value]
+            sides.append([charValue, yx])
     # same as checkIfPart
     
     for side in sides:
-        if side == "*":
-            return True
-    return False
+        if side[0] == "*":
+            return [True, side[1]]
+    return [False]
+
+def getGears(lines: []) -> int:
+    potentialGears: [] = getPotentialGears(lines)
+    print(potentialGears)
+    result: int = 0
+    for candidate in potentialGears:
+        instances: int = 0
+        for element in potentialGears:
+            if candidate == element:
+                instances += 1
+        if instances == 2: result += 1
+        potentialGears.remove(candidate)
+        potentialGears.remove(candidate)
+    return result

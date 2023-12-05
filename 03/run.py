@@ -7,3 +7,4 @@ with open('./input.txt', 'r') as file:
 
 # part 1
 print(checkPartsAndGetSumOfCorrectParts(input))
+

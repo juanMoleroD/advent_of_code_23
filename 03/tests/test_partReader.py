@@ -108,3 +108,8 @@ class Test_partReader(unittest.TestCase):
         self.assertEqual(len(getPotentialGears(self.input3)), 5)
         self.input1[1] = "..11*222.."
         self.assertEqual(len(getPotentialGears(self.input1)), 2)
+
+    def test_findGearsFromPotential(self):
+        self.input1[1] = "..11*222.."
+        self.assertEqual(getGears(self.input1), 1)
+        self.assertEqual(getGears(self.input3), 2)
